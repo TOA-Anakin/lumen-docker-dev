@@ -1,0 +1,21 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        LOCAL_UID: ${LOCAL_UID:-1000}
+        LOCAL_GID: ${LOCAL_GID:-1000}
+    env_file:
+      - .env
+    volumes:
+      - ..:/var/www/localhost
+    ports:
+      - "8000:80"
+    networks:
+      - app
+    user: ${LOCAL_UID:-1000}:${LOCAL_GID:-1000}
+networks:
+  app:
+    driver: bridge
